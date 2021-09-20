@@ -1,0 +1,1 @@
+print("Příprava na kurz Ptyhon 2")
