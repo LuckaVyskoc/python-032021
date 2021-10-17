@@ -15,8 +15,17 @@ import numpy
 # (sloupec Survived). Pro data můžeš použít agregaci len, numpy.sum, která ti spočte absolutní
 # počet přeživších pro danou kombinaci, nebo numpy.mean, která udá relativní počet přeživších pro danou kombinaci.
 tit =pd.read_csv('titanic.csv')
-titKT = pd.pivot_table(tit, index="Sex", columns="Pclass", values="Survived", aggfunc=numpy.sum)
+titKT = pd.pivot_table(tit, index="Sex", columns="Pclass", values="Survived", aggfunc=numpy.sum, margins=True)
 print(titKT.head().to_string())
+
+#Doplněk TITANIC
+tit["age_group"] = pd.cut(tit["Age"], bins=[12, 19, 65])
+titP1 = tit.loc[tit['Pclass'] == 1]
+print(titP1.head().to_string())
+titP1KT = pd.pivot_table(titP1, index="Sex", columns="age_group", values="Survived", aggfunc=numpy.sum)
+# titP1KT_proc = titP1KT.div( titP1KT.iloc[-1,-1], axis=0 )
+print(titP1KT)
+# print(titP1KT_proc.to_string())
 
 '''Půjčování kol'''
 # V souboru london_merged.csv najdeš informace o počtu vypůjčení jízdních kol v Londýně.
@@ -36,5 +45,5 @@ kola =pd.read_csv('london_merged.csv')
 kola["timestamp"] = pd.to_datetime(kola["timestamp"])
 kola['rok']=kola['timestamp'].dt.year
 kolaKT = pd.pivot_table(kola, index="weather_code", columns='rok', values="cnt", aggfunc=numpy.sum)
-print(kola.head())
-print(kolaKT.to_string())
+# print(kola.head())
+# print(kolaKT.to_string())
